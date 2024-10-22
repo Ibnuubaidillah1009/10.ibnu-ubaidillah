@@ -1,34 +1,75 @@
-document.getElementById('add-button').addEventListener('click', function() {
-    const input = document.getElementById('todo-input');
-    const todoText = input.value.trim();
+const inputUser = document.getElementById("input-user");
+const listGroup = document.getElementById("list-group");
+const form = document.querySelector("form");
+let list_item = [];
+const switchDarkMode = document.getElementById('dark-mode');
 
-    if (todoText) {
-        const todoList = document.getElementById('todo-list');
-        const li = document.createElement('li');
+function renderTodo(item) {
+return listGroup.innerHTML += `
+<li class="list-group-item d-flex justify-content-between align-items-center">
+    <h4>${item}</h4>
+    <span class="fs-4 text-danger"><i class="bi bi-x-square-fill" id="remove"></i></span>
+</li>`;
+}
 
-        li.textContent = todoText;
+// Local Storage
+if (localStorage.getItem("TO DO ITEMS")) {
+const itemLocalStorage = JSON.parse(localStorage.getItem("TO DO ITEMS"));
+itemLocalStorage.forEach(function (itemTodo) {
+    renderTodo(itemTodo);
+    list_item.push(itemTodo);
+});
+}
 
-        // Checkbox untuk menandai tugas selesai
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.addEventListener('change', function() {
-            li.classList.toggle('completed', checkbox.checked);
-        });
 
-        // Tombol untuk menghapus tugas
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Hapus';
-        deleteButton.addEventListener('click', function() {
-            todoList.removeChild(li);
-        });
+function manageLocalStorage(action, item) {
+switch (action) {
+    case 'TAMBAH':
+    list_item.push(item);
+    break;
+    case 'HAPUS':
+    list_item = list_item.filter(function (todoItem) {
+        return todoItem != item
+    });
+    break;
+}
 
-        li.prepend(checkbox);
-        li.appendChild(deleteButton);
-        todoList.appendChild(li);
+localStorage.setItem("TO DO ITEMS", JSON.stringify(list_item));
+}
 
-        // Kosongkan input setelah menambahkan tugas
-        input.value = '';
-    } else {
-        alert("Tugas tidak boleh kosong!");
-    }
+// Todo List
+form.addEventListener("submit", function (event) {
+
+renderTodo(inputUser.value);
+
+  // Menambahkan item baru ke local storage
+manageLocalStorage("TAMBAH", inputUser.value);
+
+inputUser.value = "";
+event.preventDefault();
+
+});
+listGroup.addEventListener("click", function (event) {
+  // Remove item if the "remove" icon is clicked
+if (event.target.id == "remove") {
+    event.target.parentElement.parentElement.remove();
+    manageLocalStorage("HAPUS", event.target.parentElement.parentElement.textContent.trim());
+}
+
+  // Add strikethrough if the list item itself is clicked
+if (event.target.tagName === 'LI' || event.target.tagName === 'H4') {
+    const listItem = event.target.tagName === 'LI' ? event.target : event.target.parentElement;
+    listItem.classList.toggle('completed');
+}
+});
+
+
+// dark mode
+switchDarkMode.addEventListener('change', function () {
+
+document.body.classList.toggle('darkMode');
+document.querySelector('.card').classList.toggle('darkMode');
+document.querySelector('.btn').classList.toggle('darkMode');
+switchDarkMode.classList.toggle('darkMode');
+
 });
