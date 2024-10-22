@@ -1,57 +1,50 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: rgb(89, 89, 185);
-    margin: 0;
-    padding: 50px;
-}
-
-.container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 60px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    text-align: center;
-}
-
-input[type="text"] {
-    width: calc(100% - 90px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 10px;
-    border: none;
-    background-color: #28a745;
-    color: white;
-    border-radius: 5px;
+i {
     cursor: pointer;
 }
-
-button:hover {
-    background-color: #218838;
-    padding: none;
+.completed {
+    text-decoration:line-through;
+    color: grey;
+    cursor: pointer;
+}
+i:hover {
+    filter: brightness(80%);
 }
 
-ul {
-    list-style-type: none;
-    padding: 5px;
+.form-switch {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) scale(1.5);
 }
 
-li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
+input:focus {
+    box-shadow: none !important;
 }
 
-li.completed {
-    text-decoration: line-through;
-    color: gray;
+  /* dark-mode style */
+body,
+.card,
+input,
+.btn {
+    transition: all 1s;
+}
+
+body.darkMode {
+    background-color: #000000;
+}
+
+.card.darkMode {
+    background-color: #52057b !important;
+    color: #892cdc !important;
+    border: 1px solid #bc6ff1;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #52057b;
+    border: 1px solid #bc6ff1;
+}
+
+.btn.darkMode {
+    background-color: #892cdc;
+    border: 1px solid #bc6ff1;
 }
